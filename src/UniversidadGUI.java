@@ -12,7 +12,16 @@
  
 
 import javax.swing.*;
+import org.json.simple.parser.ParseException;
+
 import java.awt.event.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 public class UniversidadGUI extends JFrame implements ActionListener
 {
@@ -23,20 +32,17 @@ public class UniversidadGUI extends JFrame implements ActionListener
 	private JMenuBar mbProyecto;
 	private JMenu mProfesores, mDepartamentos, mAlumnos, mCursos, mEntidades, mReportes, mSalir;
 	private JMenuItem miRegistroProfesor, miFormacion, miRegistroDepartamento, miAsignar, miRegistroAlumno, miInscripcion, miRegistroCurso, miReporteAlumno, miReporteCurso, miReporteGrupo, miSalir;
-	private JPanel panel;
 	
-	UniversidadAD universidadAD = new UniversidadAD();
-	private GradosIUG grados = new GradosIUG();
-	private DepartamentosIUG departamentos = new DepartamentosIUG();
-	private CursosIUG cursos = new CursosIUG();
-	private ProfesoresGUI profesor = new ProfesoresGUI();
-	private AlumnosGUI alumno = new AlumnosGUI();
-	private ImparteGUI imparte = new ImparteGUI();
-	private TomaGUI toma = new TomaGUI();
-	private ReporteAlumnoGUI reporteAlumno = new ReporteAlumnoGUI();
-	private ReporteCursoGUI reporteCurso = new ReporteCursoGUI();
-	private ReporteGrupoGUI reporteGrupo = new ReporteGrupoGUI();
+	public static UniversidadAD universidadAD = new UniversidadAD();
+
+	static ServerSocket socket1;
+	protected final static int port = 19999;
+	static Socket connection;
+
+	static boolean first;
+	static StringBuffer process;
 	
+    private static ProfesoresAD profesoresAD = new ProfesoresAD();
 	public UniversidadGUI()
 	{
 		super("Universidad Tecnológico");
@@ -95,9 +101,6 @@ public class UniversidadGUI extends JFrame implements ActionListener
 		mSalir = new JMenu("Opciones");
 		
 		
-		//Panel
-		panel = new JPanel();
-		
 		//Adicionar Objetos al MenuBar, Menú "Profesores"
 		mDepartamentos.add(miRegistroDepartamento);
 		mDepartamentos.add(miAsignar);
@@ -131,139 +134,68 @@ public class UniversidadGUI extends JFrame implements ActionListener
 		setSize(820, 470);
 		setVisible(true);
 		
-		System.out.println("Successfully rendered app");
-		
 	}
 	
-	public void actionPerformed(ActionEvent event)
-	{
-		if(event.getSource() == miFormacion)
-		{
-			if(panel != null)
-			{
-				panel.setVisible(false);
-			}
-			panel = grados.getPanel2();
-			panel.setVisible(true);
-			add(panel);
-			setVisible(true);
-		}
-		
-		if(event.getSource() == miRegistroDepartamento)
-		{
-			if(panel != null)
-			{
-				panel.setVisible(false);
-			}
-			panel = departamentos.getPanel2();
-			panel.setVisible(true);
-			add(panel);
-			setVisible(true);
-		}
-		
-		if(event.getSource() == miRegistroCurso)
-		{
-			if(panel != null)
-			{
-				panel.setVisible(false);
-			}
-			panel = cursos.getPanel2();
-			panel.setVisible(true);
-			add(panel);
-			setVisible(true);
-		}
-		
-		if(event.getSource() == miRegistroProfesor)
-		{
-			if(panel != null)
-			{
-				panel.setVisible(false);
-			}
-			panel = profesor.getPanel2();
-			panel.setVisible(true);
-			add(panel);
-			setVisible(true);
-		}
-		
-		if(event.getSource() == miRegistroAlumno)
-		{
-			if(panel != null)
-			{
-				panel.setVisible(false);
-			}
-			panel = alumno.getPanel2();
-			panel.setVisible(true);
-			add(panel);
-			setVisible(true);
-		}
+	
+	
+	private static String map(String action, String data) {
+		String response = "";
+		switch (action) {
+		case "Register":
+			response = profesoresAD.registrarProfesor(data);
+			break;
 
-		if(event.getSource() == miAsignar)
-		{
-			if(panel != null)
-			{
-				panel.setVisible(false);
-			}
-			panel = imparte.getPanel2();
-			panel.setVisible(true);
-			add(panel);
-			setVisible(true);
+		default:
+			break;
 		}
 		
-		if(event.getSource() == miInscripcion)
-		{
-			if(panel != null)
-			{
-				panel.setVisible(false);
-			}
-			panel = toma.getPanel2();
-			panel.setVisible(true);
-			add(panel);
-			setVisible(true);
-		}
-
-		if(event.getSource() == miReporteAlumno)
-		{
-			if(panel != null)
-			{
-				panel.setVisible(false);
-			}
-			panel = reporteAlumno.getPanel2();
-			panel.setVisible(true);
-			add(panel);
-			setVisible(true);
-		}
-
-		if(event.getSource() == miReporteCurso)
-		{
-			if(panel != null)
-			{
-				panel.setVisible(false);
-			}
-			panel = reporteCurso.getPanel2();
-			panel.setVisible(true);
-			add(panel);
-			setVisible(true);
-		}
-
-		if(event.getSource() == miReporteGrupo)
-		{
-			if(panel != null)
-			{
-				panel.setVisible(false);
-			}
-			panel = reporteGrupo.getPanel2();
-			panel.setVisible(true);
-			add(panel);
-			setVisible(true);
-		}
-		
-		if (event.getSource() == miSalir)
-			System.exit(0);
+		return response;
 	}
 	
-	public static void main(String args[])
+	public static void main(String args[]) throws ParseException
 	{
 		UniversidadGUI proyecto = new UniversidadGUI();
 		proyecto.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		  try{
+		      socket1 = new ServerSocket(port);
+		      System.out.println("SingleSocketServer Initialized " + port);
+		      int character;
+
+		      while (true) {
+		          connection = socket1.accept();
+		          BufferedInputStream is = new BufferedInputStream(connection.getInputStream());
+		          InputStreamReader isr = new InputStreamReader(is);
+		          process = new StringBuffer();
+		          while((character = isr.read()) != 13) {
+		              process.append((char)character);
+		            }
+		          System.err.println(process);
+		          String [] realData = process.toString().split("_", 2);
+
+		          System.out.println(realData[0]);
+		          String response = UniversidadGUI.map(realData[0], realData[1]);
+		          String returnCode = response  + (char) 13;
+		          BufferedOutputStream os = new BufferedOutputStream(connection.getOutputStream());
+		          OutputStreamWriter osw = new OutputStreamWriter(os);
+		          osw.write(returnCode);
+		          osw.flush();
+		       }
+		      }
+		  catch (IOException e) {}
+		  try {
+			   System.out.println("Closing connection");
+		        connection.close();
+		   }
+		   catch (IOException e) {}
+
+	}
+
+
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

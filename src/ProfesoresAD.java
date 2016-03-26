@@ -11,8 +11,6 @@ public class ProfesoresAD{
 
 	public String registrarProfesor(String datos){
 		String insertProfesor="";
-		String respuesta = "";
-
 		profesoresDP = new ProfesoresDP(datos);
 
 		/*Crear String con instrucción SQL*/
@@ -21,7 +19,7 @@ public class ProfesoresAD{
 		try{
 
 			//1) Abrir la base de datos Universidad
-			statement = conexion.createStatement();
+			statement = UniversidadAD.conexion.createStatement();
 
 			//2) Capturar datos en la tabla correspondiente
 			statement.executeUpdate(insertProfesor);
@@ -29,20 +27,16 @@ public class ProfesoresAD{
 			//3) Cerrar la base de datos Banco
 			statement.close();
 			
-			respuesta = "Datos: " + datos;
-            System.out.println(conexion.nativeSQL(insertProfesor));
+			System.out.println(conexion.nativeSQL(insertProfesor));
 
 		}
 		catch(SQLException sqle){
 			System.out.println("Error: " + sqle);
-				if(sqle.getErrorCode() == 1062)
-            		respuesta = "PROFESOR_DUPLICADO";
-            	else if(sqle.getErrorCode() == 1452)
-            		respuesta = "DEPARTAMENTO_NO_REGISTRADO";
-            	else
-            		respuesta = "DATOS_GRANDES";
+				
+			return "ERROR - " + sqle.toString();
+				
 		}
-		return respuesta;
+		return insertProfesor;
 	}
 	
 	public String consultarProfesores(){
