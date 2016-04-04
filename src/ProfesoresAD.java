@@ -33,7 +33,7 @@ public class ProfesoresAD{
 		catch(SQLException sqle){
 			System.out.println("Error: " + sqle);
 				
-			return "ERROR - " + sqle.toString();
+			return "ERROR - " + sqle;
 				
 		}
 		return insertProfesor;
@@ -64,11 +64,11 @@ public class ProfesoresAD{
                 profesoresDP.setSexo(result.getString(6));
                 profesoresDP.setClaveDepartamento(result.getInt(7));
                 
-                respuesta = respuesta + profesoresDP.toString() + "\n";
+                respuesta = respuesta + profesoresDP.toString() + "*";
             }
             
             if(respuesta.equals(""))
-            	return "BD_VACIA";
+            	return "ERROR - La base de datos está vacía";
             
             //3) Cerra la base de datos banco
             statement.close();
@@ -76,7 +76,7 @@ public class ProfesoresAD{
         }
         catch(SQLException sqle){
             System.out.println("Error: \n" + sqle);
-            respuesta = "ERROR";
+            return "ERROR - " + sqle;
         }
         
         return respuesta;
@@ -115,7 +115,7 @@ public class ProfesoresAD{
                 profesoresDP.setSexo(result.getString(6));
                 profesoresDP.setClaveDepartamento(result.getInt(7));
                 
-                respuesta = respuesta + profesoresDP.toString() + "\n";
+                respuesta = respuesta + profesoresDP.toString() + "*";
 	            }
 	            
 	            if(respuesta == ""){

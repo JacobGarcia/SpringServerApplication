@@ -144,7 +144,21 @@ public class UniversidadGUI extends JFrame implements ActionListener
 		case "Register":
 			response = profesoresAD.registrarProfesor(data);
 			break;
-
+		case "Query":
+			response = profesoresAD.consultarProfesores();
+			break;
+		case "Query By S.N.":
+			String [] sn = data.split("_", 2);
+			response = profesoresAD.consultarPor("PROFESOR", sn[0]);
+			break;
+		case "Query By Department":
+			String [] department = data.split("_", 7);
+			response = profesoresAD.consultarPor("DEPARTAMENTO", department[6]);
+			break;
+		case "Query By Gender":
+			String [] gender = data.split("_", 7);
+			response = profesoresAD.consultarPor("SEXO", gender[5]);
+			break;
 		default:
 			break;
 		}
@@ -170,12 +184,11 @@ public class UniversidadGUI extends JFrame implements ActionListener
 		          while((character = isr.read()) != 13) {
 		              process.append((char)character);
 		            }
-		          System.err.println(process);
 		          String [] realData = process.toString().split("_", 2);
 
-		          System.out.println(realData[0]);
+		          System.out.println("This is the action: " + realData[0] + " This is the data: " + realData[1]);
 		          String response = UniversidadGUI.map(realData[0], realData[1]);
-		          String returnCode = response  + (char) 13;
+		          String returnCode = response + (char) 13;
 		          BufferedOutputStream os = new BufferedOutputStream(connection.getOutputStream());
 		          OutputStreamWriter osw = new OutputStreamWriter(os);
 		          osw.write(returnCode);
@@ -190,8 +203,6 @@ public class UniversidadGUI extends JFrame implements ActionListener
 		   catch (IOException e) {}
 
 	}
-
-
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
