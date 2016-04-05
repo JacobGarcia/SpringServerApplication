@@ -3,16 +3,15 @@
  *
  *  Created on: 01/04/2015
  *		Project #2
- *      Authors: Mario Jacob García Navarro & Luis Arturo Mendoza Reyes. All Rights Reserved 2015.
+ *      Authors: Mario Jacob Garc��a Navarro & Luis Arturo Mendoza Reyes. All Rights Reserved 2015.
  *		IN THIS PROJECT A "UNIVERSITY SYSTEM" WLL BE SIMULATED.
  *		WE WILL BE CREATING A DATA BASE & ADDING ELEMENTS TO IT. OTHER TASKS WILL BE DONE THROUGH.
  *		IT IS MAIN PURPOSE IS USE SQL METHODS IN ORDER TO UNDERSTAND HOW OPERATIONS OF 
  *		RELATIONAL ALGEBRA WORKS.
  */
  
-
+/*	Document name: UniversidadGUI*/
 import javax.swing.*;
-import org.json.simple.parser.ParseException;
 
 import java.awt.event.*;
 import java.io.BufferedInputStream;
@@ -45,7 +44,7 @@ public class UniversidadGUI extends JFrame implements ActionListener
     private static ProfesoresAD profesoresAD = new ProfesoresAD();
 	public UniversidadGUI()
 	{
-		super("Universidad Tecnológico");
+		super("Universidad Tecnol��gico");
 		
 		//Se Crean Atributos
 		mbProyecto = new JMenuBar();
@@ -54,10 +53,10 @@ public class UniversidadGUI extends JFrame implements ActionListener
 		miRegistroProfesor = new JMenuItem("Registro de Profesores");
 		miRegistroProfesor.addActionListener(this);
 		
-		miFormacion = new JMenuItem("Formación Académica");
+		miFormacion = new JMenuItem("Formaci��n Acad��mica");
 		miFormacion.addActionListener(this);
 		
-		miAsignar = new JMenuItem("Asignación de Cursos");
+		miAsignar = new JMenuItem("Asignaci��n de Cursos");
 		miAsignar.addActionListener(this);
 					
 	
@@ -72,7 +71,7 @@ public class UniversidadGUI extends JFrame implements ActionListener
 		miRegistroAlumno = new JMenuItem("Registro de Alumnos");
 		miRegistroAlumno.addActionListener(this);
 		
-		miInscripcion = new JMenuItem("Inscripción de Cursos");
+		miInscripcion = new JMenuItem("Inscripci��n de Cursos");
 		miInscripcion.addActionListener(this);
 		
 		
@@ -84,9 +83,9 @@ public class UniversidadGUI extends JFrame implements ActionListener
 		miSalir = new JMenuItem("Salir");
 		miSalir.addActionListener(this);
 		
-		mEntidades = new JMenu("Administración de Entidades");
+		mEntidades = new JMenu("Administraci��n de Entidades");
 
-		mReportes = new JMenu("Generación de Reportes");
+		mReportes = new JMenu("Generaci��n de Reportes");
 
 		miReporteAlumno = new JMenuItem("Materias que Cursa un Alumno");
 		miReporteAlumno.addActionListener(this);
@@ -101,7 +100,7 @@ public class UniversidadGUI extends JFrame implements ActionListener
 		mSalir = new JMenu("Opciones");
 		
 		
-		//Adicionar Objetos al MenuBar, Menú "Profesores"
+		//Adicionar Objetos al MenuBar, Men�� "Profesores"
 		mDepartamentos.add(miRegistroDepartamento);
 		mDepartamentos.add(miAsignar);
 		
@@ -166,7 +165,7 @@ public class UniversidadGUI extends JFrame implements ActionListener
 		return response;
 	}
 	
-	public static void main(String args[]) throws ParseException
+	public static void main(String args[]) 
 	{
 		UniversidadGUI proyecto = new UniversidadGUI();
 		proyecto.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
