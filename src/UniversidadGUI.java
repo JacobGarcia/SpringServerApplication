@@ -42,6 +42,7 @@ public class UniversidadGUI extends JFrame implements ActionListener
 	static StringBuffer process;
 	
     private static ProfesoresAD profesoresAD = new ProfesoresAD();
+    private static AlumnosAD alumnosAD = new AlumnosAD();
 	public UniversidadGUI()
 	{
 		super("Universidad Tecnol��gico");
@@ -157,6 +158,9 @@ public class UniversidadGUI extends JFrame implements ActionListener
 		case "Query By Gender":
 			String [] gender = data.split("_", 7);
 			response = profesoresAD.consultarPor("SEXO", gender[5]);
+			break;
+		case "RegisterStudent":
+			response = alumnosAD.registrarAlumno(data);
 			break;
 		default:
 			break;

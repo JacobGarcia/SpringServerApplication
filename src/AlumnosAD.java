@@ -15,8 +15,10 @@ public class AlumnosAD{
         
         alumnosDP = new AlumnosDP(datos);
         
-        /* Crear String con instrucción SQL */
+        /* Crear String con instrucci��n SQL */
+        
         insertAlumno = "INSERT INTO Alumno VALUES("+ alumnosDP.toSQLString()+");";
+        System.out.println(insertAlumno);
         
         try {
 
@@ -30,9 +32,13 @@ public class AlumnosAD{
             statement.close();
             
             respuesta = "Datos: " + datos;
+            respuesta= insertAlumno;
             System.out.println(conexion.nativeSQL(insertAlumno));
+            
+            
         }
         catch(SQLException sqle){
+        	
             	System.out.println("Error: " + sqle);
             	if(sqle.getErrorCode() == 1062)
             		respuesta = "ALUMNO_DUPLICADO";
@@ -43,6 +49,7 @@ public class AlumnosAD{
             	
             		
             	System.out.println(sqle.getErrorCode());
+            	respuesta= "ERROR #"+sqle.getErrorCode();
         }
         return respuesta;
 	}

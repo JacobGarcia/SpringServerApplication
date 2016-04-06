@@ -11,9 +11,10 @@ public class ProfesoresAD{
 
 	public String registrarProfesor(String datos){
 		String insertProfesor="";
+		String respuesta="";
 		profesoresDP = new ProfesoresDP(datos);
 
-		/*Crear String con instrucción SQL*/
+		/*Crear String con instrucci��n SQL*/
 		insertProfesor = "INSERT INTO Profesor VALUES(" + profesoresDP.toSQLString() + ");";
 
 		try{
@@ -27,16 +28,18 @@ public class ProfesoresAD{
 			//3) Cerrar la base de datos Banco
 			statement.close();
 			
+			respuesta = "Datos: " + datos;
+	        respuesta= insertProfesor;
 			System.out.println(conexion.nativeSQL(insertProfesor));
 
 		}
 		catch(SQLException sqle){
-			System.out.println("Error: " + sqle);
-				
-			return "ERROR - " + sqle;
+			
+			System.out.println(sqle.getErrorCode());
+        	respuesta= "ERROR #"+sqle.getErrorCode();
 				
 		}
-		return insertProfesor;
+		return respuesta;
 	}
 	
 	public String consultarProfesores(){
@@ -68,7 +71,7 @@ public class ProfesoresAD{
             }
             
             if(respuesta.equals(""))
-            	return "ERROR - La base de datos está vacía";
+            	return "ERROR - La base de datos est�� vac��a";
             
             //3) Cerra la base de datos banco
             statement.close();
