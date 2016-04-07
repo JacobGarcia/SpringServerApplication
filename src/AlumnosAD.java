@@ -68,7 +68,7 @@ public class AlumnosAD{
                 alumnosDP.setCarrera(result.getString(5));
                 alumnosDP.setPlan(result.getInt(6));
                 
-                respuesta = respuesta + alumnosDP.toString() + "\n";
+                respuesta = respuesta + alumnosDP.toString() + "*";
             }
             
             if(respuesta.equals(""))

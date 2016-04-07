@@ -162,6 +162,9 @@ public class UniversidadGUI extends JFrame implements ActionListener
 		case "RegisterStudent":
 			response = alumnosAD.registrarAlumno(data);
 			break;
+		case "QueryStudent":
+			response = alumnosAD.consultarAlumnos();
+			break;
 		default:
 			break;
 		}

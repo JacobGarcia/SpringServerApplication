@@ -10,7 +10,7 @@ public class UniversidadAD{
 		try {
 			System.out.println("JDBC Driver");
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			conexion = DriverManager.getConnection("jdbc:mysql://localhost/UniversidadSpring?user=root&&password=");
+			conexion = DriverManager.getConnection("jdbc:mysql://localhost/Universidad?user=root&&password=");
             
 			System.out.println("Conexi��n exit��sa a la Base de Datos Universidad, Driver JDBC Tipo 4");
 		}
