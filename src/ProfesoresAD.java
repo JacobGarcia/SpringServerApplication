@@ -11,7 +11,6 @@ public class ProfesoresAD{
 
 	public String registrarProfesor(String datos){
 		String insertProfesor="";
-		String respuesta="";
 		profesoresDP = new ProfesoresDP(datos);
 
 		/*Crear String con instrucci��n SQL*/
@@ -28,18 +27,16 @@ public class ProfesoresAD{
 			//3) Cerrar la base de datos Banco
 			statement.close();
 			
-			respuesta = "Datos: " + datos;
-	        respuesta= insertProfesor;
 			System.out.println(conexion.nativeSQL(insertProfesor));
 
 		}
 		catch(SQLException sqle){
-			
-			System.out.println(sqle.getErrorCode());
-        	respuesta= "ERROR #"+sqle.getErrorCode();
+			System.out.println("Error: " + sqle);
+				
+			insertProfesor="ERROR - " + sqle;
 				
 		}
-		return respuesta;
+		return insertProfesor;
 	}
 	
 	public String consultarProfesores(){
