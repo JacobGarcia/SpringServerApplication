@@ -15,7 +15,7 @@ public class AlumnosAD{
         
         alumnosDP = new AlumnosDP(datos);
         
-        /* Crear String con instrucción SQL */
+        /* Crear String con instrucci��n SQL */
         insertAlumno = "INSERT INTO Alumno VALUES("+ alumnosDP.toSQLString()+");";
         
         try {
@@ -31,20 +31,13 @@ public class AlumnosAD{
             
             respuesta = "Datos: " + datos;
             System.out.println(conexion.nativeSQL(insertAlumno));
+            
         }
         catch(SQLException sqle){
-            	System.out.println("Error: " + sqle);
-            	if(sqle.getErrorCode() == 1062)
-            		respuesta = "ALUMNO_DUPLICADO";
-            	else if(sqle.getErrorCode() == 1452)
-            		respuesta = "ALUMNO_NO_REGISTRADO";
-            	else
-            		respuesta = "DATOS_GRANDES";
-            	
-            		
-            	System.out.println(sqle.getErrorCode());
+			System.out.println("Error: " + sqle);
+			insertAlumno="ERROR - " + sqle;
         }
-        return respuesta;
+        return insertAlumno;
 	}
 
     public String consultarAlumnos(){

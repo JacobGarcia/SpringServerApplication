@@ -13,7 +13,7 @@ public class ProfesoresAD{
 		String insertProfesor="";
 		profesoresDP = new ProfesoresDP(datos);
 
-		/*Crear String con instrucción SQL*/
+		/*Crear String con instrucci��n SQL*/
 		insertProfesor = "INSERT INTO Profesor VALUES(" + profesoresDP.toSQLString() + ");";
 
 		try{
@@ -33,7 +33,7 @@ public class ProfesoresAD{
 		catch(SQLException sqle){
 			System.out.println("Error: " + sqle);
 				
-			return "ERROR - " + sqle;
+			insertProfesor="ERROR - " + sqle;
 				
 		}
 		return insertProfesor;
@@ -68,7 +68,7 @@ public class ProfesoresAD{
             }
             
             if(respuesta.equals(""))
-            	return "ERROR - La base de datos está vacía";
+            	return "ERROR - La base de datos est�� vac��a";
             
             //3) Cerra la base de datos banco
             statement.close();
